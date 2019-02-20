@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_showing"
+        android:layout_width="132dp"
+        android:layout_height="137dp"
+        android:layout_marginLeft="1dp"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="1dp"
+        android:src="@mipmap/ic_launcher_round" />
+
+    <LinearLayout
+        android:layout_width="167dp"
+        android:layout_height="140dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/movie_showing_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="流浪地球"
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/movie_showing_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="7.9"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/movie_showing_directors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="导演：郭帆"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/movie_showing_casts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="主演：屈楚萧/吴京/李光洁"
+            android:textSize="14dp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TextView
+            android:id="@+id/movie_showing_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="71.1万人看过" />
+    </LinearLayout>
+</LinearLayout>
