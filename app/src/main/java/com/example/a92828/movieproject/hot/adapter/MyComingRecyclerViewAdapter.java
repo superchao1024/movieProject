@@ -9,19 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.a92828.movieproject.R;
-import com.example.a92828.movieproject.bean.ComingBean;
+import com.example.a92828.movieproject.bean.MovieBean;
 
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
 public class MyComingRecyclerViewAdapter extends RecyclerView.Adapter<MyComingRecyclerViewAdapter.MyViewHolder> {
 
     private final Context context;
-    private final List<ComingBean.SubjectsBean> subjects;
+    private final List<MovieBean.SubjectsBean> subjects;
 
-    public MyComingRecyclerViewAdapter(Context context, List<ComingBean.SubjectsBean> subjects) {
+    public MyComingRecyclerViewAdapter(Context context, List<MovieBean.SubjectsBean> subjects) {
         this.context = context;
         this.subjects = subjects;
     }
@@ -59,7 +57,7 @@ public class MyComingRecyclerViewAdapter extends RecyclerView.Adapter<MyComingRe
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
 
-        ComingBean.SubjectsBean subjectsBean = subjects.get(position);
+        MovieBean.SubjectsBean subjectsBean = subjects.get(position);
 
         /**
          * 电影名

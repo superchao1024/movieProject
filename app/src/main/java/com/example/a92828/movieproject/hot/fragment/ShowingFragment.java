@@ -2,6 +2,7 @@ package com.example.a92828.movieproject.hot.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.example.a92828.movieproject.itemDetail.QueryItemActivity;
 import com.example.a92828.movieproject.R;
-import com.example.a92828.movieproject.bean.ShowingBean;
+import com.example.a92828.movieproject.bean.MovieBean;
 import com.example.a92828.movieproject.hot.adapter.MyShowingRecyclerViewAdapter;
 import com.example.a92828.movieproject.utils.Constants;
 import com.example.a92828.movieproject.utils.DividerListItemDecoration;
@@ -51,7 +54,7 @@ public class ShowingFragment extends Fragment {
             }
         }
     };
-    private List<ShowingBean.SubjectsBean> subjects;
+    private List<MovieBean.SubjectsBean> subjects;
     private MyShowingRecyclerViewAdapter adapter;
 
 
@@ -120,7 +123,7 @@ private void getOkhttpGet() {
 
                     Log.d("TAG","首页请求成功=="+response);
                     Gson gson = new Gson();
-                    ShowingBean showingBean = gson.fromJson(response, ShowingBean.class);
+                    MovieBean showingBean = gson.fromJson(response, MovieBean.class);
                     subjects = showingBean.getSubjects();
 
 
@@ -133,6 +136,16 @@ private void getOkhttpGet() {
 
                     //添加Recyclerview的分隔线
                     rv_showing.addItemDecoration(new DividerListItemDecoration(getActivity(),DividerListItemDecoration.VERTICAL_LIST));
+
+                    adapter.setOnItemClickListener(new MyShowingRecyclerViewAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View view,String data) {
+                            Intent intent = new Intent(context,QueryItemActivity.class);
+                            intent.putExtra("id",data);
+                            startActivity(intent);
+                         //   Toast.makeText(context, data, Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 }
             });
 }

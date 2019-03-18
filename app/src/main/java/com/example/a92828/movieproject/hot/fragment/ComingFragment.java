@@ -16,8 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.a92828.movieproject.R;
-import com.example.a92828.movieproject.bean.ComingBean;
-import com.example.a92828.movieproject.bean.ShowingBean;
+import com.example.a92828.movieproject.bean.MovieBean;
 import com.example.a92828.movieproject.hot.adapter.MyComingRecyclerViewAdapter;
 import com.example.a92828.movieproject.utils.Constants;
 import com.example.a92828.movieproject.utils.DividerListItemDecoration;
@@ -54,7 +53,7 @@ public class ComingFragment extends Fragment {
             }
         }
     };
-    private List<ComingBean.SubjectsBean> subjects;
+    private List<MovieBean.SubjectsBean> subjects;
     private MyComingRecyclerViewAdapter adapter;
 
 
@@ -122,8 +121,8 @@ public class ComingFragment extends Fragment {
                     public void onResponse(String response, int id) {
                         Log.d("TAG","首页请求成功=="+response);
                         Gson gson = new Gson();
-                        ComingBean comingBean = gson.fromJson(response, ComingBean.class);
-                        subjects = comingBean.getSubjects();
+                        MovieBean movieBean = gson.fromJson(response, MovieBean.class);
+                        subjects = movieBean.getSubjects();
                         adapter = new MyComingRecyclerViewAdapter(getActivity(), subjects);
                         handler.sendEmptyMessage(WHAT_REQUEST_SUCCESS);//发送请求成功的消息
                         //LayoutManager

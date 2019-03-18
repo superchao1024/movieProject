@@ -1,25 +1,29 @@
 package com.example.a92828.movieproject.find;
 
+import android.app.ActionBar;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.a92828.movieproject.BaseFragment;
 import com.example.a92828.movieproject.R;
-import com.example.a92828.movieproject.bean.TopBean;
-import com.example.a92828.movieproject.find.Adapter.MyRecyclerViewAdapter;
+import com.example.a92828.movieproject.YuGaoActivity;
+import com.example.a92828.movieproject.bean.KouBeiBean;
+import com.example.a92828.movieproject.find.Adapter.FindFragmentAdapter;
+import com.example.a92828.movieproject.find.Adapter.MyRecyclerViewkoubeiOneAdapter;
+import com.example.a92828.movieproject.find.Adapter.MyRecyclerViewkoubeiTwoAdapter;
 import com.example.a92828.movieproject.utils.Constants;
 import com.example.a92828.movieproject.utils.LinearLayoutManagerWrapper;
 import com.google.gson.Gson;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
-
 import java.util.List;
-
 import okhttp3.Call;
 
 /**
@@ -28,16 +32,15 @@ import okhttp3.Call;
 
 public class FindFragment extends BaseFragment {
 
-    protected static final int WHAT_REQUEST_SUCCESS =0;
+    protected static final int WHAT_REQUEST_SUCCESS_KOUBEI_V1 =0;
     protected static final int WHAT_REQUEST_ERROR = 1;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case WHAT_REQUEST_SUCCESS:
-                    //显示列表
-                    rv_find.setAdapter(adapter);
+                case WHAT_REQUEST_SUCCESS_KOUBEI_V1:
 
+                    recyclerview_find.setAdapter(findadapter);
                     break;
                 case WHAT_REQUEST_ERROR:
                     Toast.makeText(getActivity(), "加载数据失败", Toast.LENGTH_SHORT).show();
@@ -47,17 +50,21 @@ public class FindFragment extends BaseFragment {
             }
         }
     };
-    private TopBean testJson;
-    private List<TopBean.SubjectsBean> subjects;
-    private RecyclerView rv_find;
-    private MyRecyclerViewAdapter adapter;
+    private KouBeiBean testJson;
+    private List<KouBeiBean.SubjectsBean> subjects;
+    private Button bt;
+    private RecyclerView recyclerview_find;
+    private FindFragmentAdapter findadapter;
+
     @Override
     public View initView() {
         View view = View.inflate(mContext, R.layout.fragment_find, null);
-        rv_find = (RecyclerView) view.findViewById(R.id.rv_find);
-        initData();
+        recyclerview_find = view.findViewById(R.id.recyclerview_find);
+        //initData();
         return view;
     }
+
+
     @Override
     public void initData() {
         new Thread() {
@@ -75,12 +82,13 @@ public class FindFragment extends BaseFragment {
         }.start();
     }
 
+
     /**
      * 得到json数据（Top250）
      */
 
     private void getOkhttpGet() {
-        String url = Constants.TOP250_URL;
+        String url = Constants.KOUBEI;
         OkHttpUtils
                 .get()
                 .url(url)
@@ -107,20 +115,22 @@ public class FindFragment extends BaseFragment {
                     @Override
                     public void onResponse(String response, int id) {
 
-                        Log.d("TAG","首页请求成功=="+response);
+                        Log.d("TAB","首页请求成功=="+response);
                         Gson gson = new Gson();
 
-                        testJson = gson.fromJson(response, TopBean.class);
+                        testJson = gson.fromJson(response, KouBeiBean.class);
                         subjects = testJson.getSubjects();
+                        if (testJson!=null){
+                            //有数据
+                            findadapter = new FindFragmentAdapter(mContext,subjects);
+                            handler.sendEmptyMessage(WHAT_REQUEST_SUCCESS_KOUBEI_V1);//发送请求成功的消息
+                            recyclerview_find.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
+                        }else {
+                            //没有数据
+                            Log.d("TAB","首页请求失败=="+response);
+                        }
 
-                        // directorsBean1 = gson.fromJson(jsonString, DirectorsBean.class);
-                        adapter = new MyRecyclerViewAdapter(getActivity(),subjects);
-
-                        handler.sendEmptyMessage(WHAT_REQUEST_SUCCESS);//发送请求成功的消息
-                        //LayoutManager
-                        rv_find.setLayoutManager(new LinearLayoutManagerWrapper(getActivity(),LinearLayoutManager.VERTICAL,false));
-
-                    }
+                   }
                 });
     }
 }
