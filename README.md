@@ -8,4 +8,4 @@
 
 
 
-![image](https://github.com/superchao1024/movieProject/blob/master/image/01.png)
+              ![image](https://github.com/superchao1024/movieProject/blob/master/image/01.png)
